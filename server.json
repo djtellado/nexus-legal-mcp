@@ -1,17 +1,17 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.djtellado/nexus-legal",
-  "description": "Multi-jurisdictional legal analysis (ISO 31000) for Spanish, LatAm and EU law — 11 tools.",
+  "description": "International legal analysis with deterministic audit trail (ISO 31000) across 31 jurisdictions — 11 tools.",
   "repository": {
     "url": "https://github.com/djtellado/nexus-legal-mcp",
     "source": "github"
   },
-  "version": "0.1.2",
+  "version": "0.1.3",
   "packages": [
     {
       "registryType": "npm",
       "identifier": "@nexus-legal/mcp",
-      "version": "0.1.2",
+      "version": "0.1.3",
       "transport": {
         "type": "stdio"
       },

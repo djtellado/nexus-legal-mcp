@@ -1,6 +1,6 @@
 {
   "name": "@nexus-legal/mcp",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "mcpName": "io.github.djtellado/nexus-legal",
   "description": "Servidor MCP (Model Context Protocol) de Nexus Legal — expone 11 capabilities jurídicas (analyze, draft, audit, monte_carlo, doctrina, jurisprudencia, opinion, redteam, cross_border, consulta, adversarial) a Claude Desktop / Claude Code / Cursor y otros clientes MCP.",
   "type": "module",

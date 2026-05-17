@@ -2,7 +2,7 @@
 
 Servidor MCP (Model Context Protocol) de **Nexus Legal** — expone 11 capabilities jurídicas especializadas a Claude Desktop, Claude Code, Cursor y cualquier otro cliente compatible con MCP.
 
-> ¿Qué es esto? Conectas tu Claude con Nexus en 30 segundos, y a partir de ese momento Claude puede invocar análisis jurídico ISO 31000, simulación Monte Carlo, búsqueda de jurisprudencia ES (~141k sentencias CENDOJ) y CO (~106k CC/CSJ/CE), doctrina administrativa (DGT/TEAC), redacción de escritos, red team adversarial y comparativas multi-jurisdiccionales sin salir de la conversación.
+> **¿Qué es esto?** Conectas tu Claude con Nexus en 30 segundos, y a partir de ese momento Claude puede invocar análisis jurídico ISO 31000 sobre **31 jurisdicciones**, simulación Monte Carlo de litigación, búsqueda de jurisprudencia, redacción de escritos, doctrina administrativa, red team adversarial y comparativas multi-jurisdiccionales (Cross-Border) sin salir de la conversación.
 
 ---
 
@@ -81,12 +81,12 @@ Claude llamará automáticamente a la tool `nexus_analyze` y te devolverá el in
 | `nexus_draft` | Redacción de escrito jurídico (recurso, demanda, etc.) | 2-4 créditos |
 | `nexus_audit` | Auditoría cruzada de un análisis Nodo A (Nodo B) | 1-2 créditos |
 | `nexus_monte_carlo` | Simulación Monte Carlo de escenarios (ISO 31000 §6) | 4 créditos |
-| `nexus_doctrina` | Búsqueda de doctrina administrativa (DGT/TEAC) | 1 crédito |
+| `nexus_doctrina` | Búsqueda de doctrina administrativa según jurisdicción | 1 crédito |
 | `nexus_opinion` | Segunda opinión multi-LLM sobre análisis previo | 2 créditos |
 | `nexus_redteam` | Red team adversarial (vulnerabilidades JSON estructurado) | 5 créditos |
 | `nexus_adversarial` | Argumentación adversarial en prosa sobre análisis previo | 2-3 créditos |
 | `nexus_cross_border_compare` | Comparativa multi-jurisdiccional (2-15 países) | 2-4 créditos |
-| `nexus_jurisprudencia_search` | Búsqueda semántica en corpus ES + CO + otros | gratis |
+| `nexus_jurisprudencia_search` | Búsqueda semántica en corpus jurisprudencial multi-jurisdicción | gratis |
 
 Las 30+ jurisdicciones soportadas (`ES`, `CO`, `MX`, `AR`, `CL`, `PE`, `UY`, `EC`, `BO`, `PY`, `VE`, `PA`, `GB`, `FR`, `DE`, `IT`, `PT`, `NL`, `CH`, `IE`, `AE`, `CA`, `AU`, `SG`, `JP`, `IN`, `HK`, `ZA`, `SA`, `BR`, `US` con state overlays `US-CA`/`US-NY`/`US-DE`/`US-TX`, y `MULTI` para análisis cross-border).
 
