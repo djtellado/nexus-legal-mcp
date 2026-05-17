@@ -1,0 +1,57 @@
+{
+  "name": "@nexus-legal/mcp",
+  "version": "0.1.2",
+  "mcpName": "io.github.djtellado/nexus-legal",
+  "description": "Servidor MCP (Model Context Protocol) de Nexus Legal — expone 11 capabilities jurídicas (analyze, draft, audit, monte_carlo, doctrina, jurisprudencia, opinion, redteam, cross_border, consulta, adversarial) a Claude Desktop / Claude Code / Cursor y otros clientes MCP.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "bin": {
+    "nexus-legal-mcp": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsc --watch -p tsconfig.json",
+    "prepublishOnly": "npm run build",
+    "start": "node dist/index.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "legal",
+    "claude",
+    "claude-desktop",
+    "nexus-legal",
+    "spanish-law",
+    "iso-31000"
+  ],
+  "author": "Nexus Legal <support@nexusquantum.legal>",
+  "license": "MIT",
+  "homepage": "https://nexusquantum.legal",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/djtellado/nexus-legal-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/djtellado/nexus-legal-mcp/issues"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.4",
+    "zod": "^3.23.8",
+    "zod-to-json-schema": "^3.23.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "typescript": "^5.7.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

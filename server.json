@@ -1,0 +1,44 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.djtellado/nexus-legal",
+  "description": "Multi-jurisdictional legal analysis (ISO 31000) for Spanish, LatAm and EU law — 11 tools.",
+  "repository": {
+    "url": "https://github.com/djtellado/nexus-legal-mcp",
+    "source": "github"
+  },
+  "version": "0.1.2",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "@nexus-legal/mcp",
+      "version": "0.1.2",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "NEXUS_API_KEY",
+          "description": "Personal API key (format `nlk_*`) with `mcp` scope. Generate one at https://nexusquantum.legal/developers (select 'Servidor MCP' when creating the key).",
+          "isRequired": true,
+          "isSecret": true,
+          "format": "string"
+        },
+        {
+          "name": "NEXUS_BASE_URL",
+          "description": "Override base URL of the Nexus backend. Defaults to https://nexusquantum.legal. Change only for self-hosted or staging environments.",
+          "isRequired": false,
+          "default": "https://nexusquantum.legal",
+          "format": "string"
+        },
+        {
+          "name": "NEXUS_TIMEOUT_MS",
+          "description": "HTTP timeout in milliseconds for long-running analyses. Default 180000 (3 minutes).",
+          "isRequired": false,
+          "default": "180000",
+          "format": "string"
+        }
+      ]
+    }
+  ],
+  "websiteUrl": "https://nexusquantum.legal"
+}
