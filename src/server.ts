@@ -1,8 +1,8 @@
 /**
  * Servidor MCP de Nexus Legal.
  *
- * Registra las 11 tools en el SDK oficial @modelcontextprotocol/sdk y las
- * sirve sobre stdio. Cada tool valida su input con zod, llama al backend
+ * Registra las tools de `ALL_TOOLS` en el SDK oficial @modelcontextprotocol/sdk
+ * y las sirve sobre stdio. Cada tool valida su input con zod, llama al backend
  * Nexus (HTTPS + Bearer nlk_...) y devuelve el resultado al cliente MCP.
  */
 
@@ -14,7 +14,7 @@ import {
 } from "@modelcontextprotocol/sdk/types.js";
 import { zodToJsonSchema } from "zod-to-json-schema";
 
-import { loadConfig } from "./config.js";
+import { loadConfig, PACKAGE_VERSION } from "./config.js";
 import { ALL_TOOLS } from "./tools/index.js";
 import { NexusHttpError } from "./http-client.js";
 
@@ -23,8 +23,11 @@ export async function startServer(): Promise<void> {
 
   const server = new Server(
     {
+      // La versión que el cliente MCP muestra en su panel de conectores. Estaba
+      // clavada a "0.1.0" desde el primer commit: el paquete 0.3.0 se presentaba
+      // como 0.1.0 a quien lo instalaba.
       name:    "nexus-legal",
-      version: "0.1.0",
+      version: PACKAGE_VERSION,
     },
     {
       capabilities: {
@@ -52,7 +55,7 @@ export async function startServer(): Promise<void> {
     if (!tool) {
       return {
         isError: true,
-        content: [{ type: "text", text: `Tool desconocida: ${name}` }],
+        content: [{ type: "text", text: `Unknown tool: ${name}` }],
       };
     }
 
@@ -62,18 +65,25 @@ export async function startServer(): Promise<void> {
         { type: "text", text: result.content },
       ];
       if (result.link) {
-        blocks.push({ type: "text", text: `\n\n🔗 Expediente Nexus: ${result.link}` });
+        blocks.push({ type: "text", text: `\n\n🔗 Nexus case file: ${result.link}` });
       }
       return { content: blocks };
     } catch (err: unknown) {
       const isHttp = err instanceof NexusHttpError;
       const msg = err instanceof Error ? err.message : String(err);
-      const detail = isHttp && err.bodyExcerpt ? `\n\nDetalle del backend:\n${err.bodyExcerpt}` : "";
+      // Cuando el backend manda un código estable, ESE es el mensaje: ya viene con
+      // su causa y su acción escritas para un integrador (`httpErrorFrom` lo
+      // antepone al texto). El volcado crudo del cuerpo solo se añade cuando NO hay
+      // código — ahí es lo único que hay. Antes salía siempre, así que el aviso
+      // legible quedaba sepultado bajo un JSON a medio cortar.
+      const detail = isHttp && !err.code && err.bodyExcerpt ? `\n\nBackend response:\n${err.bodyExcerpt}` : "";
+      // En inglés: al otro lado hay un desarrollador que integra, y el idioma del
+      // andamiaje del error no lo decide la jurisdicción del documento.
       return {
         isError: true,
         content: [{
           type: "text",
-          text: `Error invocando ${name}: ${msg}${detail}`,
+          text: `Error running ${name}: ${msg}${detail}`,
         }],
       };
     }

@@ -3,7 +3,7 @@ import { postJson } from "../http-client.js";
 import type { ToolDefinition } from "./types.js";
 
 const inputSchema = z.object({
-  documentText: z.string().min(50).describe("Texto íntegro del documento a atacar adversarialmente (típicamente un contrato)."),
+  documentText: z.string().min(50).describe("Full text of the document to attack adversarially (typically a contract)."),
 });
 
 interface RedTeamResult {
@@ -16,12 +16,12 @@ interface RedTeamResult {
 export const redteamTool: ToolDefinition = {
   name: "nexus_redteam",
   description:
-    "RED TEAM ADVERSARIAL (Nodo C — modo destructivo). Análisis hostil " +
-    "del documento como si fuera el abogado de la contraparte: vacíos " +
-    "legales, cláusulas trampa, asimetrías de poder, riesgos catastróficos. " +
-    "Devuelve JSON estructurado con vulnerabilidades (severidad Alta/Media) " +
-    "y un catastrophic_risk_score 1-100. USAR CUANDO: pre-firma de contrato " +
-    "estratégico, auditoría de M&A, due diligence agresivo. Coste: 5 créditos.",
+    "ADVERSARIAL RED TEAM (Node C — destructive mode). Hostile analysis of the " +
+    "document as if written by the other side's lawyer: legal gaps, trap clauses, " +
+    "power asymmetries, catastrophic risks. Returns structured JSON with " +
+    "vulnerabilities (severity High/Medium) and a catastrophic_risk_score 1-100. " +
+    "USE WHEN: pre-signature of a strategic contract, M&A audit, aggressive due " +
+    "diligence. Cost: 5 credits.",
   inputSchema,
   async handler(input, cfg) {
     const args = inputSchema.parse(input);

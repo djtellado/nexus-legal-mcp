@@ -3,9 +3,9 @@ import { postJson } from "../http-client.js";
 import type { ToolDefinition } from "./types.js";
 
 const inputSchema = z.object({
-  query:        z.string().min(5).describe("Consulta en lenguaje natural sobre jurisprudencia. Ej: 'cláusula suelo abusiva entidad bancaria devolución intereses' o 'recurso de amparo contra providencia administrativa apremio'."),
-  jurisdiction: z.string().default("ES").describe("Jurisdicción del corpus. ES = CENDOJ (TS/AN/TSJ/AP ~141k docs). CO = CC/CSJ/CE (~106k). Otros países según disponibilidad."),
-  top_k:        z.number().int().min(1).max(50).default(10).describe("Número máximo de sentencias a devolver."),
+  query:        z.string().min(5).describe("Natural-language query over case law. E.g. 'unfair interest-rate floor clause bank refund of interest' or 'judicial review of an enforcement notice'."),
+  jurisdiction: z.string().min(2).describe("ISO code of the jurisdiction (e.g. ES, CO, SG, GB). REQUIRED: no jurisdiction is assumed by default."),
+  top_k:        z.number().int().min(1).max(50).default(10).describe("Maximum number of judgments to return."),
 });
 
 interface SearchResponse {
@@ -25,20 +25,20 @@ interface SearchResponse {
 export const jurisprudenciaTool: ToolDefinition = {
   name: "nexus_jurisprudencia_search",
   description:
-    "BÚSQUEDA SEMÁNTICA DE JURISPRUDENCIA. Consulta vectorial (voyage-law-2) " +
-    "sobre el corpus curado de Nexus: ES ~141k sentencias (CENDOJ — TS/AN/" +
-    "TSJ/AP) · CO ~106k (CC/CSJ/CE) · más países en expansión. Devuelve " +
-    "top-K resultados con título, fuente, extracto (2 000 chars) y URL " +
-    "permanente al texto íntegro. USAR CUANDO: el usuario pide localizar " +
-    "sentencias sobre un tema concreto, contrastar un argumento, o " +
-    "construir un dossier de citas. Coste: gratis (solo búsqueda).",
+    "SEMANTIC CASE-LAW SEARCH. Vector query (voyage-law-2) over the curated " +
+    "Nexus corpus: GB ~138k judgments (Scotland and Northern Ireland) · ES " +
+    "~141k (CENDOJ) · CO ~106k · more jurisdictions in progress. Returns " +
+    "top-K results with title, source, extract (2,000 chars) and a permanent " +
+    "URL to the full text. USE WHEN: the user asks to find " +
+    "judgments on a specific point, test an argument, or build a bundle of " +
+    "authorities. Cost: free (search only).",
   inputSchema,
   async handler(input, cfg) {
     const args = inputSchema.parse(input);
     const result = await postJson<SearchResponse>(cfg, "/api/v1/jurisprudencia/search", args);
     const summary =
-      `Búsqueda en corpus ${result.jurisdiction} — intent: ${result.intent} — ` +
-      `${result.count} resultados:\n\n` +
+      `Search over the ${result.jurisdiction} corpus — intent: ${result.intent} — ` +
+      `${result.count} results:\n\n` +
       result.chunks.map((c, i) =>
         `### ${i + 1}. ${c.titulo}\n` +
         `**Fuente:** ${c.source}\n` +
